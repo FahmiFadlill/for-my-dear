@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special Gift</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnwxVVwtn8jZTb6ZZ6ZHEG4Wb6Yd9H/FTVY1BdpX2J+tyx8OXt6oS9N4iMlqE1j5tS/lFwEpg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-image: url('img/1.jpeg');
+            background-size: cover;
+            background-position: center;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .audio-container {
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+        }
+
+        .form-container {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            display: none;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #555;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px 0;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="audio-container">
+        <audio id="backgroundAudio" src="audio/1.mp3" controls autoplay></audio>
+    </div>
+
+    <div class="form-container" id="form1">
+        <h1>Hi <span id="firstNameDisplay"></span> <span id="lastNameDisplay"></span> Cantik</h1>
+        <h2>Setelah sekian lama kita saling mengenal, banyak banget hal baru yang akang dapatin dari <span class="firstNameDisplay2"></span>, 
+            begitu banyak pembelajaran yang akang terima dari <span class="firstNameDisplay2"></span>. Akang pengen ngucapin terima kasih banyak sama <span class="firstNameDisplay2"></span>,
+            karena dengan keberadaan <span class="firstNameDisplay2"></span>, akang belajar menjadi pribadi lebih baik dan lebih senang. Kehadiran <span class="firstNameDisplay2"></span>
+             gak cuman membawa kebahagiaan dalam hidup akang, tetapi juga memberi inspirasi dan semangat baru setiap harinya. Setiap momen bersama <span class="firstNameDisplay2"></span>
+             adalah anugerah yang membuat akang semakin bersyukur, dan akang merasa sangat beruntung bisa ngenal <span class="firstNameDisplay2"></span>. Terima kasih, <span class="firstNameDisplay2"></span>, 
+             untuk segala kebaikan dan cinta yang telah <span class="firstNameDisplay2"></span> berikan.</h2>
+        <button style="margin-bottom:10px" onclick="nextStep1()">Next</button>
+        <button onclick="backStep3()">Back</button>
+    </div>
+
+    <div class="form-container" id="form2">
+        <h1>Harapan Untuk <span id="firstNameDisplay2"></span> <span id="lastNameDisplay2"></span> Cantik</h1>
+        <h2>Akang harap <span class="firstNameDisplay2"></span> selalu bahagia, sehat, dan terus jadi pribadi yang luar biasa seperti sekarang. 
+            Semoga semua impian dan cita-cita <span class="firstNameDisplay2"></span> tercapai, dan apapun yang <span class="firstNameDisplay2"></span> 
+            lakukan selalu membawa kebahagiaan buat <span class="firstNameDisplay2"></span>.
+
+            Terima kasih udah jadi inspirasi dan semangat buat akang. Akang inya allah terus berdoa yang terbaik buat <span class="firstNameDisplay2"></span>
+            dan akang terus berusaha buat jadi imam yang baik buat <span class="firstNameDisplay2"></span>,
+            dan akang insyaallah bakal selalu ada buat <span class="firstNameDisplay2"></span>. Love you sayang!</h2>
+        <button style="margin-bottom:10px" onclick="nextStep2()">Next</button>
+        <button onclick="backStep2()">Back</button>
+    </div>
+
+    <div class="form-container" id="form3">
+        <h1>Terima Kasih <span id="firstNameDisplay3"></span> <span id="lastNameDisplay3"></span> </h1>
+        <h2>Selamat Berjuang, Semangat Berjuang,</h2>
+        <button onclick="backStep()">Back</button>
+    </div>
+
+    <script>
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const firstName = getQueryParam('firstname');
+            const lastName = getQueryParam('lastname');
+
+            if (firstName && lastName) {
+                document.getElementById('firstNameDisplay').textContent = firstName;
+                document.getElementById('lastNameDisplay').textContent = lastName;
+                document.getElementById('firstNameDisplay2').textContent = firstName;
+                document.getElementById('lastNameDisplay2').textContent = lastName;
+                document.getElementById('firstNameDisplay3').textContent = firstName;
+                document.getElementById('lastNameDisplay3').textContent = lastName;
+
+                const firstNameElements = document.querySelectorAll('.firstNameDisplay2');
+                firstNameElements.forEach(element => {
+                    element.textContent = firstName;
+                });
+            } else {
+                alert('Please enter your name in the URL as query parameters.');
+            }
+
+            // Show the first form container initially
+            document.getElementById('form1').style.display = 'block';
+
+            // Check if the audio is playing
+            const audio = document.getElementById('backgroundAudio');
+            audio.addEventListener('play', () => {
+                console.log('Audio is playing');
+            });
+
+            setTimeout(() => {
+                if (audio.paused) {
+                    alert('Please play the music first, cantik.');
+                }
+            }, 2000); // Check after 2 seconds if the audio is playing
+        });
+
+        function nextStep1() {
+            const audio = document.getElementById('backgroundAudio');
+            if (audio.paused) {
+                alert('Please play musiknya dulu, cantik.');
+                return;
+            }
+            document.getElementById('form1').style.display = 'none';
+            document.getElementById('form2').style.display = 'block';
+        }
+
+        function nextStep2() {
+            const audio = document.getElementById('backgroundAudio');
+            if (audio.paused) {
+                alert('Please play the music first, cantik.');
+                return;
+            }
+            document.getElementById('form2').style.display = 'none';
+            document.getElementById('form3').style.display = 'block';
+        }
+
+        function backStep() {
+            document.getElementById('form3').style.display = 'none';
+            document.getElementById('form2').style.display = 'block';
+        }
+
+        function backStep2() {
+            document.getElementById('form2').style.display = 'none';
+            document.getElementById('form1').style.display = 'block';
+        }
+
+        function backStep3() {
+            window.location.href = `index.html`;
+        }
+    </script>
+</body>
+</html>
