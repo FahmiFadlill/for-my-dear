@@ -31,11 +31,14 @@
 
         .form-container {
             background: rgba(255, 255, 255, 0.8);
-            padding: 30px 40px;
+            padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
             display: none;
+            width: 90%;
+            max-width: 500px;
+            margin: 20px;
         }
 
         h1 {
@@ -49,6 +52,21 @@
             font-size: 18px;
         }
 
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+            outline: none;
+        }
+
         button {
             display: block;
             width: 100%;
@@ -60,16 +78,42 @@
             font-size: 16px;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            margin-bottom: 10px;
         }
 
         button:hover {
             background-color: #0056b3;
+        }
+
+        @media (min-width: 600px) {
+            .form-container {
+                padding: 30px 40px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="audio-container">
         <audio id="backgroundAudio" src="audio/1.mp3" controls autoplay></audio>
+    </div>
+
+    <div class="form-container" id="form0" style="display: block;">
+        <h1>Silahkan Masukan Nama Kamu</h1>
+        <form id="nameForm">
+            <div class="row">
+                <div class="col">
+                    <input type="text" class="form-control" id="firstName" placeholder="First name" aria-label="First name">
+                    <p>*1 Kata Nama Depan</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <input type="text" class="form-control" id="lastName" placeholder="Last name" aria-label="Last name">
+                    <p>*1 Kata Nama Akhir</p>
+                </div>
+            </div>
+            <button type="submit">Selesai</button>
+        </form>
     </div>
 
     <div class="form-container" id="form1">
@@ -80,7 +124,7 @@
              gak cuman membawa kebahagiaan dalam hidup akang, tetapi juga memberi inspirasi dan semangat baru setiap harinya. Setiap momen bersama <span class="firstNameDisplay2"></span>
              adalah anugerah yang membuat akang semakin bersyukur, dan akang merasa sangat beruntung bisa ngenal <span class="firstNameDisplay2"></span>. Terima kasih, <span class="firstNameDisplay2"></span>, 
              untuk segala kebaikan dan cinta yang telah <span class="firstNameDisplay2"></span> berikan.</h2>
-        <button style="margin-bottom:10px" onclick="nextStep1()">Next</button>
+        <button onclick="nextStep1()">Next</button>
         <button onclick="backStep3()">Back</button>
     </div>
 
@@ -96,59 +140,57 @@
             Terima kasih udah jadi inspirasi dan semangat buat akang. Akang inya allah terus berdoa yang terbaik buat <span class="firstNameDisplay2"></span>
             dan akang terus berusaha buat jadi imam yang baik buat <span class="firstNameDisplay2"></span>,
             dan akang insyaallah bakal selalu ada buat <span class="firstNameDisplay2"></span>. Love you sayang!</h2>
-        <button style="margin-bottom:10px" onclick="nextStep2()">Next</button>
+        <button onclick="nextStep2()">Next</button>
         <button onclick="backStep2()">Back</button>
     </div>
 
     <div class="form-container" id="form3">
         <h1>Terima Kasih <span id="firstNameDisplay3"></span> <span id="lastNameDisplay3"></span> </h1>
         <h2>Maafin akang belum bisa jadi orang yang baik buat <span class="firstNameDisplay2"></span>,
-        semoga akang bisa jadi lebih baik buat <span class="firstNameDisplay2"></span>, semoga kita bisa menjadi pasangan yang diridhai orang tua dan AllahSWT. 
+        semoga akang bisa jadi lebih baik buat <span class="firstNameDisplay2"></span>, semoga kita bisa menjadi pasangan yang diridhai orang tua dan Allah SWT. 
     
         Selamat Berjuang, Semangat Berjuang SAYANG. </h2>
         <button onclick="backStep()">Back</button>
     </div>
 
     <script>
-        function getQueryParam(param) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(param);
-        }
+        document.getElementById('nameForm').addEventListener('submit', function(e) {
+            e.preventDefault();
 
-        document.addEventListener('DOMContentLoaded', (event) => {
-            const firstName = getQueryParam('firstname');
-            const lastName = getQueryParam('lastname');
+            const audio = document.getElementById('backgroundAudio');
 
-            if (firstName && lastName) {
-                document.getElementById('firstNameDisplay').textContent = firstName;
-                document.getElementById('lastNameDisplay').textContent = lastName;
-                document.getElementById('firstNameDisplay2').textContent = firstName;
-                document.getElementById('lastNameDisplay2').textContent = lastName;
-                document.getElementById('firstNameDisplay3').textContent = firstName;
-                document.getElementById('lastNameDisplay3').textContent = lastName;
+            const firstName = document.getElementById('firstName').value.toLowerCase();
+            const lastName = document.getElementById('lastName').value;
 
-                const firstNameElements = document.querySelectorAll('.firstNameDisplay2');
-                firstNameElements.forEach(element => {
-                    element.textContent = firstName;
-                });
-            } else {
-                alert('Please enter your name in the URL as query parameters.');
+            if (audio.paused) {
+                alert('Please play musiknya dulu, cantik.');
+                return;
             }
 
-            // Show the first form container initially
+            if (firstName === '' || lastName === '') {
+                alert('Wajib diisi ya namanya eneng sayang');
+                return;
+            }
+
+            if(firstName !== "farisa"){
+                alert('Kalo Bukan Farisa, tidak bisa!');
+                return;
+            }
+
+            document.getElementById('form0').style.display = 'none';
             document.getElementById('form1').style.display = 'block';
 
-            // Check if the audio is playing
-            const audio = document.getElementById('backgroundAudio');
-            audio.addEventListener('play', () => {
-                console.log('Audio is playing');
-            });
+            document.getElementById('firstNameDisplay').textContent = firstName;
+            document.getElementById('lastNameDisplay').textContent = lastName;
+            document.getElementById('firstNameDisplay2').textContent = firstName;
+            document.getElementById('lastNameDisplay2').textContent = lastName;
+            document.getElementById('firstNameDisplay3').textContent = firstName;
+            document.getElementById('lastNameDisplay3').textContent = lastName;
 
-            setTimeout(() => {
-                if (audio.paused) {
-                    alert('Please play the music first, cantik.');
-                }
-            }, 2000); // Check after 2 seconds if the audio is playing
+            const firstNameElements = document.querySelectorAll('.firstNameDisplay2');
+            firstNameElements.forEach(element => {
+                element.textContent = firstName;
+            });
         });
 
         function nextStep1() {
@@ -182,8 +224,26 @@
         }
 
         function backStep3() {
-            window.location.href = `index.html`;
+            if (confirm("Apakah yakin akan keluar?")) {
+                document.getElementById('form1').style.display = 'none';
+                document.getElementById('form0').style.display = 'block';
+                const audio = document.getElementById('backgroundAudio');
+                audio.pause();
+            }
         }
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const audio = document.getElementById('backgroundAudio');
+            audio.addEventListener('play', () => {
+                console.log('Audio is playing');
+            });
+
+            setTimeout(() => {
+                if (audio.paused) {
+                    alert('Please play the music first, cantik.');
+                }
+            }, 2000); 
+        });
     </script>
 </body>
 </html>
